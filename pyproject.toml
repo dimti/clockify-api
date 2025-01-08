@@ -20,14 +20,19 @@ marshmallow = "^3.23.1"
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.7.2"
 pytest = "^8.3.3"
+pytest-cov = "^6.0.0"
 json2python-models = "^0.3.1"
 coverage = "^7.6.4"
 sphinx = "^8.1.3"
 sphinx-rtd-theme = "^3.0.1"
+openpyxl = "^3.1.5"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.coverage.run]
-relative_files = true
+# @see https://github.com/microsoft/vscode-python/issues/24259?ysclid=m5mg0hf93685324409
+relative_files = false
+
+[tool.pytest.ini_options]

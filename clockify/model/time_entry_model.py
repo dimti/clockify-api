@@ -1,12 +1,12 @@
 from datetime import datetime
 from typing import Any, List, Optional
+from pydantic import Field
 
 from clockify.model.base_model import BaseModel
 from clockify.model.user_model import User
 from clockify.model.tag_model import Tag
 from clockify.model.task_model import Task
 from clockify.model.project_model import Project
-from pydantic import ConfigDict
 
 
 class TimeInterval(BaseModel):
@@ -21,36 +21,22 @@ class HourlyRate(BaseModel):
 
 
 class TimeEntry(BaseModel):
-    id_: Optional[str] = None
+    id_: Optional[str] = Field(default=None, alias='id')
     description: str
     tags: Optional[List[Tag]] = None
-    tag_ids: Optional[List[str]] = None
+    tag_ids: Optional[List[str]] = Field(default=None, alias='tagIds')
     user: Optional[User] = None
-    user_id: Optional[str] = None
+    user_id: Optional[str] = Field(default=None, alias='userId')
     billable: Optional[bool] = None
     task: Optional[Task] = None
-    task_id: Optional[str] = None
+    task_id: Optional[str] = Field(default=None, alias='taskId')
     project: Optional[Project] = None
-    project_id: Optional[str] = None
-    time_interval: Optional[TimeInterval] = None
-    workspace_id: Optional[str] = None
-    hourly_rate: Optional[HourlyRate] = None
-    custom_field_values: List[Any]
-    is_locked: Optional[bool] = None
-    # TODO[pydantic]: The following keys were removed: `fields`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(fields={
-        "id_": "id",
-        "tag_ids": "tagIds",
-        "user_id": "userId",
-        "task_id": "taskId",
-        "project_id": "projectId",
-        "time_interval": "timeInterval",
-        "workspace_id": "workspaceId",
-        "hourly_rate": "hourlyRate",
-        "custom_field_values": "customFieldValues",
-        "is_locked": "isLocked",
-    })
+    project_id: Optional[str] = Field(default=None, alias='projectId')
+    time_interval: Optional[TimeInterval] = Field(default=None, alias='timeInterval')
+    workspace_id: Optional[str] = Field(default=None, alias='workspaceId')
+    hourly_rate: Optional[HourlyRate] = Field(default=None, alias='hourlyRate')
+    custom_field_values: List[Any] = Field(default=None, alias='customFieldValues')
+    is_locked: Optional[bool] = Field(default=None, alias='isLocked')
 
 
 class TimeEntryGetParams(BaseModel):
@@ -73,9 +59,6 @@ class CreateTimeEntryDTO(BaseModel):
     end: datetime
     billable: bool = True
     description: str
-    project_id: Optional[str] = None
-    task_id: Optional[str] = None
-    tag_ids: Optional[List[str]] = None
-    # TODO[pydantic]: The following keys were removed: `fields`.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-config for more information.
-    model_config = ConfigDict(fields={"project_id": "projectId", "task_id": "taskId", "tag_ids": "tagIds"})
+    project_id: Optional[str] = Field(default=None, alias='projectId')
+    task_id: Optional[str] = Field(default=None, alias='taskId')
+    tag_ids: Optional[List[str]] = Field(default=None, alias='tagIds')

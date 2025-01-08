@@ -56,7 +56,7 @@ class TestTimeEntries(ClockifyTestCase):
         start = datetime.now()
         end = start + timedelta(minutes=30)
         project = self.session.project.create_project(
-            Project(name="Time Entry Test Project", workspace_id=self.WORKSPACE)
+            Project(name="Test Project", workspace_id=self.WORKSPACE)
         )
         task = self.session.task.create_task(
             self.WORKSPACE, Task(name="Test task", project_id=project.id_)
@@ -68,7 +68,7 @@ class TestTimeEntries(ClockifyTestCase):
             start=start,
             end=end,
             billable=True,
-            description="doing work",
+            description="Test doing work",
             project_id=project.id_,
             task_id=task.id_,
             tag_ids=[tag.id_],

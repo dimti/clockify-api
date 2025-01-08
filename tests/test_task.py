@@ -80,6 +80,8 @@ class TestTasks(ClockifyTestCase):
     def test_delete_task(self):
         task = Task(name=f"Test Task #{randint(0, 99999)}", project_id=self.project_id)
         created_task = self.session.task.create_task(self.WORKSPACE, task)
+        created_task.status = 'DONE'
+        self.session.task.update_task(self.WORKSPACE, created_task)
         deleted_task = self.session.task.delete_task(
             self.WORKSPACE, created_task.project_id, created_task.id_
         )
