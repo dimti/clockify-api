@@ -1,10 +1,12 @@
 import requests
 from clockify.apis.project_api import ProjectApi
+from clockify.apis.reports_api import ReportsApi
 from clockify.apis.task_api import TaskApi
 from clockify.apis.time_entry_api import TimeEntryApi
 from clockify.apis.user import UserWrapper
 from clockify.apis.client_api import ClientApi
 from clockify.apis.tag_api import TagApi
+from clockify.apis.user_api import UserApi
 
 
 class ClockifySession(
@@ -21,6 +23,8 @@ class ClockifySession(
 
         self.client = ClientApi(key)
         self.project = ProjectApi(key)
+        self.reports = ReportsApi(key)
         self.tag = TagApi(key)
         self.task = TaskApi(key)
         self.time_entry = TimeEntryApi(key)
+        self.user = UserApi(key)

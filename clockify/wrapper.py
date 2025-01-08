@@ -23,14 +23,17 @@ class Wrapper:
         if res.status_code == 201:
             return res.json()
         else:
+            # TODO: Need failtest
             raise requests.HTTPError(
                 f"HTTP ERROR {res.status_code}: {res.reason} - {res.text}"
             )
 
-    def __delete(self, url: str) -> dict:
+    def __delete(self, url: str) -> dict | None:
         res = self.session.delete(url)
         if res.status_code == 200:
             return res.json()
+        elif res.status_code == 204:
+            return None
         else:
             raise requests.HTTPError(
                 f"HTTP ERROR {res.status_code}: {res.reason} - {res.text}"
@@ -41,6 +44,7 @@ class Wrapper:
         if res.status_code == 200:
             return res.json()
         else:
+            # TODO: Need failtest
             raise requests.HTTPError(
                 f"HTTP ERROR {res.status_code}: {res.reason} - {res.text}"
             )
@@ -55,16 +59,29 @@ class Wrapper:
         if params:
             params = params.json_dict()
         else:
+            # TODO: Need test with a None params
             params = {}
         res = self.__get(url, params)
         return [schema(**r) for r in res]
+
+    def _get_file(self, url: str, params: BaseModel) -> bytes:
+        res = self.session.post(url, json=params.json_dict())
+        if res.status_code == 200:
+            return res.content
+        else:
+            # TODO: Need failtest
+            raise requests.HTTPError(
+                f"HTTP ERROR {res.status_code}: {res.reason} - {res.text}"
+            )
 
     def _create_one(self, url: str, object: BaseModel, schema: BaseModel) -> BaseModel:
         res = self.__post(url, object.json_dict())
         return schema(**res)
 
-    def _delete_one(self, url: str, schema: BaseModel) -> BaseModel:
+    def _delete_one(self, url: str, schema: BaseModel) -> BaseModel | None:
         res = self.__delete(url)
+        if res is None:
+            return None
         return schema(**res)
 
     def _update_one(

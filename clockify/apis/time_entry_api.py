@@ -56,3 +56,16 @@ class TimeEntryApi(Wrapper):
         """
         url = f"{BASE_URL}/workspaces/{workspace_id}/user/{user_id}/time-entries"
         return self._create_one(url, time_entry, TimeEntry)
+
+    def delete_time_entry(self, workspace_id: str, time_entry_id: str) -> TimeEntry:
+        """Delete a TimeEntry and return it as a TimeEntry object.
+
+        Args:
+            workspace_id (str): ID of the clockify workspace.
+            time_entry_id (str): ID of the clockify time-entry.
+
+        Returns:
+            TimeEntry: Deleted TimeEntry object.
+        """
+        url = f"{BASE_URL}/workspaces/{workspace_id}/time-entries/{time_entry_id}"
+        return self._delete_one(url, TimeEntry)
