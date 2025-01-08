@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from io import BytesIO
 from openpyxl import load_workbook
 from openpyxl.utils.cell import column_index_from_string
@@ -20,7 +20,8 @@ class TestReports(ClockifyTestCase):
     def setUpClass(cls) -> None:
         cls.session = ClockifySession(cls.KEY)
         
-        start = datetime.now()
+        utc_timezone = timezone(timedelta(hours=0), 'UTC')
+        start = datetime.now(utc_timezone)
         end = start + timedelta(minutes=30)
         
         time_entry_data = CreateTimeEntryDTO(
